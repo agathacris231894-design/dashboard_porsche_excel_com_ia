@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Porsche | Sales Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <div class="eyebrow">
+                Sales intelligence · dataset 2024–2027
+            </div>
+
+            <h1>
+                PORSCHE
+                <span style="font-weight: 300">/ SALES OVERVIEW</span>
+            </h1>
+
+            <p>
+                Visão exploratória das vendas registradas e dos métodos de pagamento
+            </p>
+        </div>
+
+        <div class="switch">
+            <button
+                id="porscheBtn"
+                class="active"
+                onclick="setTheme('porsche')"
+            >
+                Porsche Brasil
+            </button>
+
+            <button
+                id="powerBtn"
+                onclick="setTheme('powerbi')"
+            >
+                Power BI
+            </button>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section class="filters">
+            <div class="field">
+                <label for="model">Modelo Porsche</label>
+                <select id="model">
+                    <option value="">Todos os modelos</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="year">Ano do modelo</label>
+                <select id="year">
+                    <option value="">Todos os anos</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="city">Cidade</label>
+                <select id="city">
+                    <option value="">Todas as cidades</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="pay">Forma de pagamento</label>
+                <select id="pay">
+                    <option value="">Todas as formas</option>
+                </select>
+            </div>
+
+            <button class="reset" onclick="resetFilters()">
+                Limpar filtros
+            </button>
+        </section>
+
+        <div class="subhead">
+            <h2>Indicadores principais</h2>
+            <span id="filterSummary" class="muted"></span>
+        </div>
+
+        <section class="kpis" id="kpis"></section>
+
+        <section class="grid">
+            <article class="panel">
+                <h3>Modelos mais registrados</h3>
+                <div class="desc">
+                    Quantidade de registros por modelo · top 8
+                </div>
+                <div id="modelsChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Valor registrado por modelo</h3>
+                <div class="desc">
+                    Soma dos valores informados · top 8
+                </div>
+                <div id="valueChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Formas de pagamento</h3>
+                <div class="desc">
+                    Valor registrado por método de pagamento
+                </div>
+                <div id="payChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Registros por status</h3>
+                <div class="desc">
+                    Quantidade de registros em cada status, sem agrupamento
+                </div>
+                <div id="statusChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Valor registrado por status</h3>
+                <div class="desc">
+                    Soma em BRL separada pelo status original
+                </div>
+                <div id="statusValueChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Concentração por estado</h3>
+                <div class="desc">
+                    Estados com mais registros · top 10
+                </div>
+                <div id="stateChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Ano do modelo mais frequente</h3>
+                <div class="desc">
+                    Distribuição dos anos dos veículos no recorte filtrado
+                </div>
+                <div id="yearChart" class="bars"></div>
+            </article>
+
+            <article class="panel">
+                <h3>Modelo mais frequente por cidade</h3>
+                <div class="desc">
+                    Cidade, modelo líder e quantidade de registros
+                </div>
+
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cidade</th>
+                                <th>Estado</th>
+                                <th>Modelo líder</th>
+                                <th>Registros</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="cityTable"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <div class="subhead">
+            <h2>Resumo por status</h2>
+            <span class="muted">Todos os status são preservados</span>
+        </div>
+
+        <section class="panel">
+            <div class="tablewrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status original</th>
+                            <th>Registros</th>
+                            <th>Valor registrado (BRL)</th>
+                            <th>% dos registros</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="statusTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="subhead">
+            <h2>Registros do recorte</h2>
+            <span class="muted">
+                Valores apresentados conforme a tabela fornecida
+            </span>
+        </div>
+
+        <section class="panel">
+            <div class="tablewrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data original (preservada)</th>
+                            <th>Cliente</th>
+                            <th>Modelo</th>
+                            <th>Ano</th>
+                            <th>Valor registrado</th>
+                            <th>Km</th>
+                            <th>Pagamento</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>Status</th>
+                            <th>Validação da data</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="dataTable"></tbody>
+                </table>
+            </div>
+
+            <div class="note" id="qualityNote"></div>
+        </section>
+
+        <p class="footer">
+            Nota metodológica: a base é fictícia e os valores são tratados como
+            BRL conforme informado. Todos os registros são mantidos e os valores
+            são separados pelo status original. Datas inválidas, ambíguas ou
+            interpretadas provisoriamente como formato americano permanecem
+            identificadas para revisão; não foram corrigidas por suposição.
+        </p>
+    </main>
+
+    <script src="javascript.js"></script>
+</body>
+</html>
